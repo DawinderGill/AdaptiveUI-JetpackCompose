@@ -1,4 +1,4 @@
-package com.dawinder.btnjc.nav
+package com.dawinder.adaptiveui_jetpackcompose.nav
 
 object NavTitle {
     const val HOME = "Home"

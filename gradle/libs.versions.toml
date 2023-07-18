@@ -10,6 +10,8 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 plugin-android-app = "8.2.0-alpha11"
 plugin-kotlin = "1.8.10"
+window = "1.1.0"
+material3-window-size = "1.1.1"
 
 [libraries]
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -29,6 +31,8 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-window = { group = "androidx.window", name = "window", version.ref = "window" }
+androidx-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3-window-size" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "plugin-android-app" }

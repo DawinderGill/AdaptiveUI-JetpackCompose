@@ -4,4 +4,5 @@
     <string name="search">Search</string>
     <string name="list">List</string>
     <string name="profile">Profile</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
 </resources>

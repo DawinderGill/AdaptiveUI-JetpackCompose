@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dawinder.btnjc.nav.NavItem
+import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.HomeScreen
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.ListScreen
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.ProfileScreen

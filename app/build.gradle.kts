@@ -65,12 +65,14 @@ dependencies {
     // Other Jetpack Compose Libraries
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
+    implementation(libs.androidx.material3.window.size)
 
     // Navigation Compose
     implementation(libs.navigation.compose)
 
-    // Core Libraries
+    // AndroidX Libraries
     implementation(libs.core.ktx)
+    implementation(libs.androidx.window)
 
     // Dagger Hilt for Dependency Injection
     implementation(libs.hilt.android)

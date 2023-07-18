@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
-import com.dawinder.btnjc.nav.NavItem
+import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
 
 /**
  * Composable function that represents the bottom navigation bar of the application.
@@ -36,7 +36,6 @@ fun BottomNavigationBar(navController: NavHostController) {
                             popUpTo(route) { saveState = true }
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 }
             )
