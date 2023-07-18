@@ -80,15 +80,51 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true, widthDp = 1000)
+/*@Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    /*val navController = rememberNavController()
+    val navController = rememberNavController()
     AdaptiveUIJetpackComposeTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             MainScreen(navController = navController)
         }
-    }*/
+    }
+    AdaptiveUIJetpackComposeTheme {
+        val navController = rememberNavController()
+        ReplyApp(
+            windowSize = WindowWidthSizeClass.Expanded,
+            foldingDevicePosture = DevicePosture.NormalPosture ,navController
+        )
+    }
+}*/
+
+@Preview(showBackground = true)
+@Composable
+fun CompactUiPreview() {
+    AdaptiveUIJetpackComposeTheme {
+        val navController = rememberNavController()
+        ReplyApp(
+            windowSize = WindowWidthSizeClass.Compact,
+            foldingDevicePosture = DevicePosture.NormalPosture ,navController
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 700)
+@Composable
+fun MediumUiPreview() {
+    AdaptiveUIJetpackComposeTheme {
+        val navController = rememberNavController()
+        ReplyApp(
+            windowSize = WindowWidthSizeClass.Medium,
+            foldingDevicePosture = DevicePosture.NormalPosture ,navController
+        )
+    }
+}
+
+@Preview(showBackground = true, widthDp = 1000)
+@Composable
+fun ExpandedUiPreview() {
     AdaptiveUIJetpackComposeTheme {
         val navController = rememberNavController()
         ReplyApp(

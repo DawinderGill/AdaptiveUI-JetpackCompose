@@ -1,8 +1,10 @@
 package com.dawinder.adaptiveui_jetpackcompose.ui.composables
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,10 +22,10 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -38,33 +39,41 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.dawinder.adaptiveui_jetpackcompose.R
 import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
-import com.dawinder.adaptiveui_jetpackcompose.nav.NavTitle
-import com.dawinder.adaptiveui_jetpackcompose.ui.theme.AdaptiveUIJetpackComposeTheme
 import com.dawinder.adaptiveui_jetpackcompose.ui.theme.md_theme_light_outlineVariant
 import com.dawinder.adaptiveui_jetpackcompose.ui.theme.md_theme_light_primary
 import com.dawinder.adaptiveui_jetpackcompose.ui.theme.typography
-import com.dawinder.adaptiveui_jetpackcompose.utils.ContentType
 import com.dawinder.adaptiveui_jetpackcompose.utils.DevicePosture
 import com.dawinder.adaptiveui_jetpackcompose.utils.NavigationType
 import kotlinx.coroutines.launch
 
-/**
- * Composable function that represents the main screen of the application.
- *
- * @param navController The navigation controller used for handling navigation between screens.
- */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController) {
-    Scaffold(bottomBar = {
-        BottomAppBar { BottomNavigationBar(navController = navController) }
-    }) { NavigationScreens(navController = navController) }
+fun MainScreen(navController: NavHostController, navigationType: NavigationType) {
+    Row(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = navigationType == NavigationType.HALF_NAVIGATION) {
+            ReplyNavigationRail(navController)
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.inverseOnSurface)
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+            ) {
+                NavigationScreens(navController = navController)
+            }
+            AnimatedVisibility(visible = navigationType == NavigationType.BOTTOM_NAVIGATION) {
+                BottomNavigationBar(navController)
+            }
+        }
+    }
 }
 
 @Composable
@@ -79,22 +88,14 @@ fun ReplyApp(
      * fold state of the device.
      */
     val navigationType: NavigationType
-    val contentType: ContentType
 
     when (windowSize) {
         WindowWidthSizeClass.Compact -> {
             navigationType = NavigationType.BOTTOM_NAVIGATION
-            contentType = ContentType.CONTENT_ONLY
         }
 
         WindowWidthSizeClass.Medium -> {
             navigationType = NavigationType.HALF_NAVIGATION
-            contentType =
-                if (foldingDevicePosture is DevicePosture.BookPosture || foldingDevicePosture is DevicePosture.Separating) {
-                    ContentType.NAV_AND_CONTENT
-                } else {
-                    ContentType.CONTENT_ONLY
-                }
         }
 
         WindowWidthSizeClass.Expanded -> {
@@ -103,12 +104,10 @@ fun ReplyApp(
             } else {
                 NavigationType.PERMANENT_NAVIGATION_DRAWER
             }
-            contentType = ContentType.NAV_AND_CONTENT
         }
 
         else -> {
             navigationType = NavigationType.BOTTOM_NAVIGATION
-            contentType = ContentType.CONTENT_ONLY
         }
     }
 
@@ -122,7 +121,6 @@ private fun ReplyNavigationWrapperUI(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    //val selectedTitle = NavTitle.HOME
 
     if (navigationType == NavigationType.PERMANENT_NAVIGATION_DRAWER) {
         PermanentNavigationDrawer(
@@ -132,7 +130,7 @@ private fun ReplyNavigationWrapperUI(
                 }
             }
         ) {
-            MainScreen(navController = navController)
+            MainScreen(navController = navController, navigationType = navigationType)
         }
     } else {
         ModalNavigationDrawer(
@@ -150,18 +148,7 @@ private fun ReplyNavigationWrapperUI(
             },
             drawerState = drawerState
         ) {
-            MainScreen(navController = navController)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun NavDrawerContent(){
-    val navController = rememberNavController()
-    AdaptiveUIJetpackComposeTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            NavigationDrawerContent(navController = navController)
+            MainScreen(navController = navController, navigationType = navigationType)
         }
     }
 }
@@ -221,6 +208,30 @@ fun NavigationDrawerContent(
                         }
                         launchSingleTop = true
                         restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun ReplyNavigationRail(navController: NavHostController) {
+    val navItems = listOf(NavItem.Home, NavItem.Search, NavItem.List, NavItem.Profile)
+    var selectedItem by rememberSaveable { mutableStateOf(0) }
+
+    NavigationRail {
+        navItems.forEachIndexed { index, item ->
+            NavigationRailItem(
+                icon = { Icon(item.icon, contentDescription = item.title) },
+                selected = selectedItem == index,
+                onClick = {
+                    selectedItem = index
+                    navController.navigate(item.path) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) { saveState = true }
+                        }
+                        launchSingleTop = true
                     }
                 }
             )

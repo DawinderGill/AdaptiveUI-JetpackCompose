@@ -40,10 +40,3 @@ fun isSeparating(foldFeature: FoldingFeature?): Boolean {
 enum class NavigationType {
     BOTTOM_NAVIGATION, HALF_NAVIGATION, PERMANENT_NAVIGATION_DRAWER
 }
-
-/**
- * Content shown depending on size and state of device.
- */
-enum class ContentType {
-    CONTENT_ONLY, NAV_AND_CONTENT
-}
