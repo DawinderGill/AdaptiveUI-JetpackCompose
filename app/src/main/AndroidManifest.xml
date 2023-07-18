@@ -13,10 +13,11 @@
         android:theme="@style/Theme.AdaptiveUIJetpackCompose"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AdaptiveUIJetpackCompose">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AdaptiveUIJetpackCompose"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

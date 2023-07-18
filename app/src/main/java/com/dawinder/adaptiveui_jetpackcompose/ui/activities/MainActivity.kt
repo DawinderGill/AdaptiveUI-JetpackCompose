@@ -1,4 +1,4 @@
-package com.dawinder.adaptiveui_jetpackcompose
+package com.dawinder.adaptiveui_jetpackcompose.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
