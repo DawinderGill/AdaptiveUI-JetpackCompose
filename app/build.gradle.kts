@@ -1,7 +1,8 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.daggerHilt)
 }
 
 android {
@@ -51,20 +52,37 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
+    // Jetpack Compose Platform
     implementation(platform(libs.compose.bom))
+    androidTestImplementation(platform(libs.compose.bom))
+
+    // Jetpack Compose Libraries with BOM version
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
+    // Other Jetpack Compose Libraries
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.activity.compose)
+
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+
+    // Core Libraries
+    implementation(libs.core.ktx)
+
+    // Dagger Hilt for Dependency Injection
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Testing Libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
+
+    // Debugging Tools
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
