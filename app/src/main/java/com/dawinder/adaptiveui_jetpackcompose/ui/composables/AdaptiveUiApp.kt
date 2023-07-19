@@ -6,12 +6,20 @@ import androidx.navigation.NavHostController
 import com.dawinder.adaptiveui_jetpackcompose.nav.NavType
 import com.dawinder.adaptiveui_jetpackcompose.utils.DevicePosture
 
+/**
+ * Composable function that represents the adaptive UI of the application based on the device's window size and folding device posture.
+ *
+ * @param windowSize The window size classification of the device.
+ * @param foldingDevicePosture The folding device posture obtained from the device.
+ * @param navController The navigation controller used for navigating between screens.
+ */
 @Composable
 fun AdaptiveUiApp(
     windowSize: WindowWidthSizeClass,
     foldingDevicePosture: DevicePosture,
     navController: NavHostController
 ) {
+    // Determine the navigation type based on the window size and folding device posture
     val navigationType: NavType
 
     when (windowSize) {
@@ -32,5 +40,6 @@ fun AdaptiveUiApp(
         }
     }
 
+    // Render the left navigation drawer based on the determined navigation type
     LeftNavigationDrawer(navigationType, navController)
 }

@@ -6,7 +6,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 /**
- * Information about the posture of the device
+ * Sealed interface representing different device postures.
  */
 sealed interface DevicePosture {
     object NormalPosture : DevicePosture
@@ -17,6 +17,12 @@ sealed interface DevicePosture {
         DevicePosture
 }
 
+/**
+ * Checks if the given folding feature represents a book posture.
+ *
+ * @param foldFeature The folding feature to check.
+ * @return `true` if the folding feature represents a book posture, `false` otherwise.
+ */
 @OptIn(ExperimentalContracts::class)
 fun isBookPosture(foldFeature: FoldingFeature?): Boolean {
     contract { returns(true) implies (foldFeature != null) }
@@ -24,6 +30,12 @@ fun isBookPosture(foldFeature: FoldingFeature?): Boolean {
             foldFeature.orientation == FoldingFeature.Orientation.VERTICAL
 }
 
+/**
+ * Checks if the given folding feature represents a separating posture.
+ *
+ * @param foldFeature The folding feature to check.
+ * @return `true` if the folding feature represents a separating posture, `false` otherwise.
+ */
 @OptIn(ExperimentalContracts::class)
 fun isSeparating(foldFeature: FoldingFeature?): Boolean {
     contract { returns(true) implies (foldFeature != null) }

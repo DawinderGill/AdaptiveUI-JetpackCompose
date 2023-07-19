@@ -11,6 +11,13 @@ import androidx.window.layout.WindowInfoTracker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * Returns a Flow of [DevicePosture] objects representing the device's posture based on the window layout information.
+ *
+ * @param context The application context.
+ * @param lifecycle The lifecycle object used to bound the emission of DevicePosture objects to the lifecycle events.
+ * @return A Flow emitting DevicePosture objects representing the device's posture.
+ */
 fun WindowInfoTracker.getDevicePostureFlow(
     context: Context,
     lifecycle: Lifecycle
@@ -33,4 +40,3 @@ fun WindowInfoTracker.getDevicePostureFlow(
             }
         }
 }
-

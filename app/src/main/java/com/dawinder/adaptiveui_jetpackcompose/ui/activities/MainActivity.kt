@@ -26,6 +26,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /**
+         * Sets the content of the application using Jetpack Compose and adaptive UI features.
+         *
+         * The content consists of an AdaptiveUIJetpackComposeTheme wrapping an AdaptiveUiApp composable.
+         * The window size class and device posture are calculated and used to configure the AdaptiveUiApp.
+         *
+         * @param calculateWindowSizeClass A function that calculates the window size class based on the provided context.
+         * @param getDevicePosture A function that retrieves the device's posture as a StateFlow of DevicePosture objects.
+         * @param navController The NavController instance used for navigation within the AdaptiveUiApp.
+         */
         setContent {
             AdaptiveUIJetpackComposeTheme {
                 val windowSize = calculateWindowSizeClass(this)
@@ -36,6 +46,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Retrieves the device's posture as a StateFlow of [DevicePosture] objects.
+     *
+     * @return A StateFlow emitting the device's posture.
+     */
     private fun getDevicePosture(): StateFlow<DevicePosture> {
         return WindowInfoTracker.getOrCreate(this)
             .getDevicePostureFlow(this, lifecycle)
@@ -47,6 +62,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Preview of compact screen
 @Preview(showBackground = true)
 @Composable
 fun CompactUiPreview() {
@@ -59,6 +75,7 @@ fun CompactUiPreview() {
     }
 }
 
+// Preview of medium screen
 @Preview(showBackground = true, widthDp = 700)
 @Composable
 fun MediumUiPreview() {
@@ -71,6 +88,7 @@ fun MediumUiPreview() {
     }
 }
 
+// Preview of expanded screen
 @Preview(showBackground = true, widthDp = 1000)
 @Composable
 fun ExpandedUiPreview() {
