@@ -12,7 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
+import com.dawinder.adaptiveui_jetpackcompose.nav.NavSealedItem
 
 /**
  * Composable function that represents the bottom navigation bar of the application.
@@ -21,11 +21,11 @@ import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
  */
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val navItems = listOf(NavItem.Home, NavItem.Search, NavItem.List, NavItem.Profile)
+    val navSealedItems = listOf(NavSealedItem.Home, NavSealedItem.Search, NavSealedItem.List, NavSealedItem.Profile)
     var selectedItem by rememberSaveable { mutableStateOf(0) }
 
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        navItems.forEachIndexed { index, item ->
+        navSealedItems.forEachIndexed { index, item ->
             NavigationBarItem(
                 alwaysShowLabel = true,
                 icon = { Icon(item.icon, contentDescription = item.title) },

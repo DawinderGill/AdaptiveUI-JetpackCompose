@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.dawinder.adaptiveui_jetpackcompose.nav.NavItem
+import com.dawinder.adaptiveui_jetpackcompose.nav.NavSealedItem
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.HomeScreen
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.ListScreen
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.ProfileScreen
@@ -17,10 +17,10 @@ import com.dawinder.adaptiveui_jetpackcompose.ui.composables.tabs.SearchScreen
  */
 @Composable
 fun NavigationScreens(navController: NavHostController) {
-    NavHost(navController, startDestination = NavItem.Home.path) {
-        composable(NavItem.Home.path) { HomeScreen() }
-        composable(NavItem.Search.path) { SearchScreen() }
-        composable(NavItem.List.path) { ListScreen() }
-        composable(NavItem.Profile.path) { ProfileScreen() }
+    NavHost(navController, startDestination = NavSealedItem.Home.path) {
+        composable(NavSealedItem.Home.path) { HomeScreen() }
+        composable(NavSealedItem.Search.path) { SearchScreen() }
+        composable(NavSealedItem.List.path) { ListScreen() }
+        composable(NavSealedItem.Profile.path) { ProfileScreen() }
     }
 }
