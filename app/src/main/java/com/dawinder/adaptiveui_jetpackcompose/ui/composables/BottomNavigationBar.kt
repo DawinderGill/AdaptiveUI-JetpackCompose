@@ -21,7 +21,8 @@ import com.dawinder.adaptiveui_jetpackcompose.nav.NavSealedItem
  */
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val navSealedItems = listOf(NavSealedItem.Home, NavSealedItem.Search, NavSealedItem.List, NavSealedItem.Profile)
+    val navSealedItems =
+        listOf(NavSealedItem.Home, NavSealedItem.Search, NavSealedItem.List, NavSealedItem.Profile)
     var selectedItem by rememberSaveable { mutableStateOf(0) }
 
     NavigationBar(modifier = Modifier.fillMaxWidth()) {

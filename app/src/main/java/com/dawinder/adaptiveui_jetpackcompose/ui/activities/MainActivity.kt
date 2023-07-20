@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowInfoTracker
+import com.dawinder.adaptiveui_jetpackcompose.nav.NavType
 import com.dawinder.adaptiveui_jetpackcompose.ui.composables.AdaptiveUiApp
 import com.dawinder.adaptiveui_jetpackcompose.ui.theme.AdaptiveUIJetpackComposeTheme
 import com.dawinder.adaptiveui_jetpackcompose.utils.DevicePosture
@@ -28,20 +30,20 @@ class MainActivity : ComponentActivity() {
 
         /**
          * Sets the content of the application using Jetpack Compose and adaptive UI features.
-         *
          * The content consists of an AdaptiveUIJetpackComposeTheme wrapping an AdaptiveUiApp composable.
-         * The window size class and device posture are calculated and used to configure the AdaptiveUiApp.
          *
-         * @param calculateWindowSizeClass A function that calculates the window size class based on the provided context.
-         * @param getDevicePosture A function that retrieves the device's posture as a StateFlow of DevicePosture objects.
-         * @param navController The NavController instance used for navigation within the AdaptiveUiApp.
+         * windowSize: Calculate window size classification based on screen size
+         * devicePosture: Collect device posture as a state value
+         * navigationType: Determine navigation type based on window size and device posture
+         * navController: Create a NavHostController for app navigation
          */
         setContent {
             AdaptiveUIJetpackComposeTheme {
-                val windowSize = calculateWindowSizeClass(this)
+                val windowSize = calculateWindowSizeClass(this).widthSizeClass
                 val devicePosture = getDevicePosture().collectAsState().value
+                val navigationType = getNavigationType(windowSize, devicePosture)
                 val navController = rememberNavController()
-                AdaptiveUiApp(windowSize.widthSizeClass, devicePosture, navController)
+                AdaptiveUiApp(navigationType, navController)
             }
         }
     }
@@ -60,6 +62,39 @@ class MainActivity : ComponentActivity() {
                 initialValue = DevicePosture.NormalPosture
             )
     }
+
+    /**
+     * Determines the navigation type based on the window size and folding device posture.
+     *
+     * @param windowSize The classification of the window size.
+     * @param foldingDevicePosture The posture of the folding device.
+     * @return The navigation type to be used in the app.
+     */
+    private fun getNavigationType(
+        windowSize: WindowWidthSizeClass,
+        foldingDevicePosture: DevicePosture
+    ): NavType {
+        val navigationType: NavType
+
+        when (windowSize) {
+            WindowWidthSizeClass.Medium -> {
+                navigationType = NavType.HALF_NAVIGATION
+            }
+
+            WindowWidthSizeClass.Expanded -> {
+                navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
+                    NavType.HALF_NAVIGATION
+                } else {
+                    NavType.PERMANENT_NAVIGATION_DRAWER
+                }
+            }
+
+            else -> {
+                navigationType = NavType.BOTTOM_NAVIGATION
+            }
+        }
+        return navigationType
+    }
 }
 
 // Preview of compact screen
@@ -68,10 +103,7 @@ class MainActivity : ComponentActivity() {
 fun CompactUiPreview() {
     AdaptiveUIJetpackComposeTheme {
         val navController = rememberNavController()
-        AdaptiveUiApp(
-            windowSize = WindowWidthSizeClass.Compact,
-            foldingDevicePosture = DevicePosture.NormalPosture, navController
-        )
+        AdaptiveUiApp(NavType.BOTTOM_NAVIGATION, navController)
     }
 }
 
@@ -81,10 +113,7 @@ fun CompactUiPreview() {
 fun MediumUiPreview() {
     AdaptiveUIJetpackComposeTheme {
         val navController = rememberNavController()
-        AdaptiveUiApp(
-            windowSize = WindowWidthSizeClass.Medium,
-            foldingDevicePosture = DevicePosture.NormalPosture, navController
-        )
+        AdaptiveUiApp(NavType.HALF_NAVIGATION, navController)
     }
 }
 
@@ -94,9 +123,6 @@ fun MediumUiPreview() {
 fun ExpandedUiPreview() {
     AdaptiveUIJetpackComposeTheme {
         val navController = rememberNavController()
-        AdaptiveUiApp(
-            windowSize = WindowWidthSizeClass.Expanded,
-            foldingDevicePosture = DevicePosture.NormalPosture, navController
-        )
+        AdaptiveUiApp(NavType.PERMANENT_NAVIGATION_DRAWER, navController)
     }
 }
