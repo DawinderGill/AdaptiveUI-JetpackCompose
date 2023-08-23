@@ -17,7 +17,7 @@ Adaptive UI Jetpack Compose is a demo open-source project that showcases how to 
 
 The project demonstrates best practices and techniques for building responsive user interfaces that adapt to various device form factors and postures. It covers topics such as window layout information tracking, handling folding features, and implementing different navigation patterns based on the device's capabilities.
 
-You can read step by step guide in my [medium](https://medium.com/@dawinderapps/311bc6136748) story.
+You can read the step by step guide in my [medium](https://medium.com/@dawinderapps/311bc6136748) story.
 
 
 ## 🌳 Environment
